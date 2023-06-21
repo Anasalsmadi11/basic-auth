@@ -18,15 +18,23 @@ userRouter.get('/signin', signIn)
 // crypt(text)
 
 async function signUp(req,res){
+   try{
+
     let username=req.body.username
-    console.log(username)
+    // console.log(username)
+
     let hashedPassword=await bcrypt.hash(req.body.password,10)
 
     const record= await userModel.create({
         username: username,
         password: hashedPassword
     });
+    console.log(record)
     res.status(201).json(record)
+}catch(error){
+    // console.log(error)
+    res.status(500).send(error)
+}
 }
 
 async function signIn(req,res){
